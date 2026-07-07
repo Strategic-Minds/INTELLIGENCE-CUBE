@@ -1,0 +1,17 @@
+name: workbook-schema-check
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check workbook folders
+        run: |
+          test -d 00_MASTER_WORKBOOK/current
+          test -d 01_WORKBOOK_INDEX/current
+          test -f WORKBOOK_OS_MANIFEST.json
+          echo "workbook schema scaffold ok"
