@@ -1,0 +1,16 @@
+name: public-repo-safety
+
+on:
+  pull_request:
+  push:
+    branches: [workbook-os/scaffold-v1]
+
+jobs:
+  safety:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python scripts/workbook_validation/validate_public_repo_boundaries.py
