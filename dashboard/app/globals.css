@@ -103,6 +103,57 @@ textarea {
   gap: 20px;
 }
 
+.dashboard-grid {
+  grid-template-columns: minmax(0, 1.7fr) minmax(320px, 0.9fr);
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: start;
+  margin-bottom: 20px;
+}
+
+.palette {
+  padding: 20px;
+  margin-bottom: 20px;
+  animation: fade-up 180ms ease-out;
+}
+
+.palette-grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.palette-button {
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+}
+
+.palette-button span,
+.message-role {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.message-role.user {
+  color: var(--brand-strong);
+}
+
+.message-role.assistant {
+  color: var(--brand-strong);
+}
+
+.message-role.system {
+  color: var(--muted);
+}
+
 .message-list {
   display: grid;
   gap: 14px;
@@ -115,6 +166,7 @@ textarea {
   border-radius: 20px;
   border: 1px solid var(--border);
   background: color-mix(in srgb, var(--panel-strong) 88%, transparent);
+  animation: fade-up 220ms ease-out;
 }
 
 .message.user {
@@ -160,6 +212,16 @@ textarea {
   border-color: transparent;
 }
 
+.prompt-button {
+  transition: transform 160ms ease, border-color 160ms ease;
+}
+
+.prompt-button:hover,
+.button:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--brand) 30%, var(--border));
+}
+
 .sidebar-links {
   display: grid;
   gap: 10px;
@@ -185,5 +247,51 @@ textarea {
   .sidebar {
     border-right: 0;
     border-bottom: 1px solid var(--border);
+  }
+
+  .dashboard-grid,
+  .palette-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .toolbar {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .main,
+  .sidebar {
+    padding: 18px;
+  }
+
+  .card {
+    border-radius: 20px;
+  }
+
+  .palette {
+    position: sticky;
+    top: 12px;
+    z-index: 2;
+  }
+
+  .button-row {
+    width: 100%;
+  }
+
+  .button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

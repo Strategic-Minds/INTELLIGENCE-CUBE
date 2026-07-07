@@ -9,6 +9,7 @@ type Message = {
   role: 'system' | 'user' | 'assistant';
   title: string;
   body: string;
+  tone?: 'neutral' | 'positive' | 'warning';
 };
 
 const starterMessages: Message[] = [
@@ -33,10 +34,19 @@ const prompts = [
   'Draft the next branch-safe action',
 ];
 
+const paletteItems = [
+  { label: 'Focus chat', action: 'Focus chat composer' },
+  { label: 'Review blockers', action: 'Open blocker board' },
+  { label: 'Inspect receipts', action: 'Review receipt timeline' },
+  { label: 'Switch theme', action: 'Toggle light or dark mode' },
+];
+
 export default function EnterpriseChatStudio() {
   const [theme, setTheme] = useState<Theme>('dark');
   const [draft, setDraft] = useState('');
   const [messages, setMessages] = useState(starterMessages);
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [animatedCount, setAnimatedCount] = useState(0);
 
   useEffect(() => {
     const saved = window.localStorage.getItem('cube-theme') as Theme | null;
@@ -50,19 +60,46 @@ export default function EnterpriseChatStudio() {
     window.localStorage.setItem('cube-theme', theme);
   }, [theme]);
 
+  useEffect(() => {
+    setAnimatedCount(0);
+    const timer = window.setInterval(() => {
+      setAnimatedCount((current) => {
+        const next = current + 1;
+        return next >= messages.length ? messages.length : next;
+      });
+    }, 120);
+    return () => window.clearInterval(timer);
+  }, [messages.length, theme]);
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        setPaletteOpen((current) => !current);
+      }
+      if (event.key === 'Escape') {
+        setPaletteOpen(false);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
+
   const transcriptCount = useMemo(() => messages.length, [messages.length]);
 
   const sendMessage = (text: string) => {
     const clean = text.trim();
     if (!clean) return;
+    const now = Date.now();
     setMessages((current) => [
       ...current,
-      { id: Date.now(), role: 'user', title: 'Operator', body: clean },
+      { id: now, role: 'user', title: 'Operator', body: clean, tone: 'positive' },
       {
-        id: Date.now() + 1,
+        id: now + 1,
         role: 'assistant',
         title: 'Intelligence Cube',
         body: 'Acknowledged. I can route this through the workbook, connector registry, and receipt path before action.',
+        tone: 'neutral',
       },
     ]);
     setDraft('');
@@ -114,25 +151,59 @@ export default function EnterpriseChatStudio() {
       </aside>
 
       <main className="main">
-        <div className="grid" style={{ gridTemplateColumns: 'minmax(0, 1.7fr) minmax(320px, .9fr)' }}>
-          <section className="card" style={{ padding: 24 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16, alignItems: 'start' }}>
-              <div>
-                <div className="pill">Chat workspace</div>
-                <h2 style={{ margin: '16px 0 8px', fontSize: 28 }}>Operational conversation hub</h2>
-                <p style={{ margin: 0, color: 'var(--muted)', lineHeight: 1.6 }}>
-                  Use this PWA to draft actions, review connector state, and keep every sensitive step behind the workbook gate.
-                </p>
-              </div>
-              <button className="button primary">Install app</button>
-            </div>
+        <div className="toolbar">
+          <div>
+            <div className="pill">Chat workspace</div>
+            <h2 style={{ margin: '14px 0 6px', fontSize: 28 }}>Operational conversation hub</h2>
+            <p style={{ margin: 0, color: 'var(--muted)', lineHeight: 1.6, maxWidth: 760 }}>
+              Use this PWA to draft actions, review connector state, and keep every sensitive step behind the workbook gate.
+            </p>
+          </div>
+          <div className="button-row">
+            <button className="button" onClick={() => setPaletteOpen((current) => !current)}>
+              Command palette
+            </button>
+            <button className="button primary">Install app</button>
+          </div>
+        </div>
 
+        {paletteOpen && (
+          <section className="card palette">
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center' }}>
+              <strong>Command palette</strong>
+              <span style={{ color: 'var(--muted)', fontSize: 12 }}>Ctrl/Cmd + K</span>
+            </div>
+            <div className="palette-grid">
+              {paletteItems.map((item) => (
+                <button
+                  key={item.label}
+                  className="button palette-button"
+                  onClick={() => {
+                    if (item.label === 'Switch theme') {
+                      setTheme((current) => (current === 'dark' ? 'light' : 'dark'));
+                    }
+                    if (item.label === 'Focus chat') {
+                      document.querySelector<HTMLTextAreaElement>('.chat-input')?.focus();
+                    }
+                    setPaletteOpen(false);
+                  }}
+                >
+                  <strong>{item.label}</strong>
+                  <span>{item.action}</span>
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div className="grid dashboard-grid">
+          <section className="card" style={{ padding: 24 }}>
             <div style={{ marginTop: 22 }} className="message-list">
-              {messages.map((message) => (
+              {messages.slice(0, animatedCount).map((message) => (
                 <article key={message.id} className={`message ${message.role === 'user' ? 'user' : ''}`}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center' }}>
                     <strong>{message.title}</strong>
-                    <span style={{ color: 'var(--muted)', fontSize: 12, textTransform: 'uppercase' }}>{message.role}</span>
+                    <span className={`message-role ${message.role}`}>{message.role}</span>
                   </div>
                   <div style={{ color: 'var(--muted)', lineHeight: 1.6 }}>{message.body}</div>
                 </article>
@@ -162,7 +233,7 @@ export default function EnterpriseChatStudio() {
               <div className="pill">Quick prompts</div>
               <div style={{ display: 'grid', gap: 10, marginTop: 16 }}>
                 {prompts.map((prompt) => (
-                  <button key={prompt} className="button" onClick={() => sendMessage(prompt)}>
+                  <button key={prompt} className="button prompt-button" onClick={() => sendMessage(prompt)}>
                     {prompt}
                   </button>
                 ))}
