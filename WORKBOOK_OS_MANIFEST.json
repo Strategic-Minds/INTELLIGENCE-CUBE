@@ -25,7 +25,7 @@
       "workbook_type": "MASTER_CONTROL_WORKBOOK",
       "repo_path": "00_MASTER_WORKBOOK/current/AUTO_BUILDER_INTELLIGENCE_CUBE_MASTER_AUTONOMY_FACTORY_CONNECTOR_READY_FINAL.xlsx",
       "version": "v1-connector-ready-final",
-      "status": "pending_binary_upload_verification",
+      "status": "validated",
       "source_of_truth_rank": "primary",
       "contains_frontend_contract": true,
       "contains_backend_contract": true,
@@ -67,9 +67,36 @@
       "workbook_type": "WORKBOOK_INDEX",
       "repo_path": "01_WORKBOOK_INDEX/current/",
       "version": "v1",
-      "status": "pending_binary_upload_verification",
+      "status": "validated",
       "source_of_truth_rank": "index",
       "next_action": "verify current index workbook upload"
+    },
+    {
+      "workbook_id": "SOURCE-ATLAS",
+      "workbook_name": "INTERNET_IDEA_SOURCE_ATLAS_WORKBOOK_20260707.xlsx",
+      "workbook_type": "SOURCE_ATLAS_WORKBOOK",
+      "repo_path": "04_SOURCE_ATLAS_WORKBOOKS/internet_sources/INTERNET_IDEA_SOURCE_ATLAS_WORKBOOK_20260707.xlsx",
+      "version": "v1",
+      "status": "validated",
+      "source_of_truth_rank": "support"
+    },
+    {
+      "workbook_id": "IDEA-FACTORY",
+      "workbook_name": "AUTONOMOUS_APP_IDEA_FACTORY_WORKBOOK_20260707.xlsx",
+      "workbook_type": "IDEA_FACTORY_WORKBOOK",
+      "repo_path": "05_IDEA_FACTORY_WORKBOOKS/ranked_ideas/AUTONOMOUS_APP_IDEA_FACTORY_WORKBOOK_20260707.xlsx",
+      "version": "v1",
+      "status": "validated",
+      "source_of_truth_rank": "support"
+    },
+    {
+      "workbook_id": "INTELLIGENCE-OS",
+      "workbook_name": "AI_INTERNET_OPPORTUNITY_OPERATING_SYSTEM_WORKBOOK_20260707.xlsx",
+      "workbook_type": "INTELLIGENCE_OS_WORKBOOK",
+      "repo_path": "06_INTELLIGENCE_OS_WORKBOOKS/ai_operating_system/AI_INTERNET_OPPORTUNITY_OPERATING_SYSTEM_WORKBOOK_20260707.xlsx",
+      "version": "v1",
+      "status": "validated",
+      "source_of_truth_rank": "support"
     }
   ]
 }
