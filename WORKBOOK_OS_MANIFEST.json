@@ -7,24 +7,25 @@
   "working_branch": "workbook-os/scaffold-v1",
   "master_workbook_path": "00_MASTER_WORKBOOK/current/",
   "current_index_workbook_path": "01_WORKBOOK_INDEX/current/",
-  "active_master_workbook": "00_MASTER_WORKBOOK/current/AUTO_BUILDER_INTELLIGENCE_CUBE_MASTER_AUTONOMY_FACTORY_CONNECTOR_ENABLED.xlsx",
+  "active_master_workbook": "00_MASTER_WORKBOOK/current/AUTO_BUILDER_INTELLIGENCE_CUBE_MASTER_AUTONOMY_FACTORY_CONNECTOR_READY_FINAL.xlsx",
   "connector_governance": {
     "enabled": true,
     "required_sheets": [
       "13A_CONNECTOR_REGISTRY",
       "13B_CONNECTOR_CONTRACTS",
-      "13C_CONNECTOR_RUN_LOG"
+      "13C_CONNECTOR_RUN_LOG",
+      "13D_CONNECTOR_INSTALL_MAP"
     ],
-    "rule": "Use connector registry, connector contracts, and connector run log before any repo, Drive, Vercel, Supabase, Stripe, Gmail, design, video, CRM, marketing, or social action. Store connector permissions and receipts in workbook rows. Do not store live credentials in the workbook or repo."
+    "rule": "Use connector registry, connector contracts, connector run log, and connector install map before any repo, Drive, Vercel, Supabase, Stripe, Gmail, design, video, CRM, marketing, or social action. Store connector routing, allowed actions, approval gates, fallback routes, and receipts in workbook rows. Do not store live credentials in the workbook or repo."
   },
   "workbooks": [
     {
-      "workbook_id": "MASTER-CONNECTOR-CURRENT",
-      "workbook_name": "AUTO_BUILDER_INTELLIGENCE_CUBE_MASTER_AUTONOMY_FACTORY_CONNECTOR_ENABLED.xlsx",
+      "workbook_id": "MASTER-CONNECTOR-READY-FINAL",
+      "workbook_name": "AUTO_BUILDER_INTELLIGENCE_CUBE_MASTER_AUTONOMY_FACTORY_CONNECTOR_READY_FINAL.xlsx",
       "workbook_type": "MASTER_CONTROL_WORKBOOK",
-      "repo_path": "00_MASTER_WORKBOOK/current/AUTO_BUILDER_INTELLIGENCE_CUBE_MASTER_AUTONOMY_FACTORY_CONNECTOR_ENABLED.xlsx",
-      "version": "v1-connector-enabled",
-      "status": "pending_binary_upload",
+      "repo_path": "00_MASTER_WORKBOOK/current/AUTO_BUILDER_INTELLIGENCE_CUBE_MASTER_AUTONOMY_FACTORY_CONNECTOR_READY_FINAL.xlsx",
+      "version": "v1-connector-ready-final",
+      "status": "pending_binary_upload_verification",
       "source_of_truth_rank": "primary",
       "contains_frontend_contract": true,
       "contains_backend_contract": true,
@@ -37,7 +38,18 @@
       "contains_connector_registry": true,
       "contains_connector_contracts": true,
       "contains_connector_run_log": true,
-      "next_action": "upload connector-enabled master workbook binary to repo path"
+      "contains_connector_install_map": true,
+      "next_action": "verify binary exists in repo path, then mark uploaded"
+    },
+    {
+      "workbook_id": "MASTER-CONNECTOR-ENABLED-PRIOR",
+      "workbook_name": "AUTO_BUILDER_INTELLIGENCE_CUBE_MASTER_AUTONOMY_FACTORY_CONNECTOR_ENABLED.xlsx",
+      "workbook_type": "MASTER_CONTROL_WORKBOOK",
+      "repo_path": "00_MASTER_WORKBOOK/versions/",
+      "version": "v1-connector-enabled-prior",
+      "status": "superseded_by_connector_ready_final_workbook",
+      "source_of_truth_rank": "archive",
+      "next_action": "keep only as prior version if uploaded"
     },
     {
       "workbook_id": "MASTER-PRIOR",
@@ -45,7 +57,7 @@
       "workbook_type": "MASTER_CONTROL_WORKBOOK",
       "repo_path": "00_MASTER_WORKBOOK/versions/",
       "version": "v1-prior",
-      "status": "superseded_by_connector_enabled_workbook",
+      "status": "superseded_by_connector_ready_final_workbook",
       "source_of_truth_rank": "archive",
       "next_action": "keep only as prior version if uploaded"
     },
@@ -55,9 +67,9 @@
       "workbook_type": "WORKBOOK_INDEX",
       "repo_path": "01_WORKBOOK_INDEX/current/",
       "version": "v1",
-      "status": "pending_binary_upload",
+      "status": "pending_binary_upload_verification",
       "source_of_truth_rank": "index",
-      "next_action": "upload current index workbook"
+      "next_action": "verify current index workbook upload"
     }
   ]
 }
