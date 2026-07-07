@@ -1,0 +1,40 @@
+{
+  "repo": "Strategic-Minds/INTELLIGENCE-CUBE",
+  "repo_purpose": "AUTO BUILDER workbook-only operating system",
+  "source_of_truth_rule": "workbooks are command artifacts; repo files are support artifacts unless referenced by a workbook",
+  "private_material_rule": "this public repo stores safe references only",
+  "default_branch": "main",
+  "working_branch": "workbook-os/scaffold-v1",
+  "master_workbook_path": "00_MASTER_WORKBOOK/current/",
+  "current_index_workbook_path": "01_WORKBOOK_INDEX/current/",
+  "workbooks": [
+    {
+      "workbook_id": "MASTER-CURRENT",
+      "workbook_name": "AUTO_BUILDER_INTELLIGENCE_CUBE_MASTER_AUTONOMY_FACTORY.xlsx",
+      "workbook_type": "MASTER_CONTROL_WORKBOOK",
+      "repo_path": "00_MASTER_WORKBOOK/current/",
+      "version": "v1",
+      "status": "pending_upload",
+      "source_of_truth_rank": "primary",
+      "contains_frontend_contract": true,
+      "contains_backend_contract": true,
+      "contains_tools_skills": true,
+      "contains_assets": true,
+      "contains_prompts": true,
+      "contains_automation": true,
+      "contains_validation": true,
+      "contains_receipts": true,
+      "next_action": "upload current master workbook"
+    },
+    {
+      "workbook_id": "INDEX-CURRENT",
+      "workbook_name": "AUTO_BUILDER_IDEA_MINING_WORKBOOK_INDEX_20260707.xlsx",
+      "workbook_type": "WORKBOOK_INDEX",
+      "repo_path": "01_WORKBOOK_INDEX/current/",
+      "version": "v1",
+      "status": "pending_upload",
+      "source_of_truth_rank": "index",
+      "next_action": "upload current index workbook"
+    }
+  ]
+}
