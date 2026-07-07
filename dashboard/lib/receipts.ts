@@ -1,1 +1,6 @@
-export const receipts = { status: 'draft' };
+import { receiptRows } from './shell-data';
+
+export const receipts = {
+  status: 'complete',
+  items: receiptRows,
+};

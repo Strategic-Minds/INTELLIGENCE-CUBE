@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { approvalRows, blockerRows, chatTranscript, connectorRows, receiptRows, swarmQueues, workbookStatus } from '../lib/shell-data';
 
 type Theme = 'light' | 'dark';
 
@@ -47,12 +48,15 @@ export default function EnterpriseChatStudio() {
   const [messages, setMessages] = useState(starterMessages);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [animatedCount, setAnimatedCount] = useState(0);
+  const [activeTab, setActiveTab] = useState<'chat' | 'swarm' | 'status'>('chat');
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     const saved = window.localStorage.getItem('cube-theme') as Theme | null;
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const nextTheme = saved ?? (prefersDark ? 'dark' : 'light');
     setTheme(nextTheme);
+    setHydrated(true);
   }, []);
 
   useEffect(() => {
@@ -104,6 +108,12 @@ export default function EnterpriseChatStudio() {
     ]);
     setDraft('');
   };
+
+  const statusCards = [
+    { label: 'Approvals', value: approvalRows.length.toString(), detail: 'Ready gates and review items' },
+    { label: 'Receipts', value: receiptRows.length.toString(), detail: 'Traceable operational receipts' },
+    { label: 'Blockers', value: blockerRows.length.toString(), detail: 'One blocked path by design' },
+  ];
 
   return (
     <div className="shell-grid">
@@ -196,36 +206,94 @@ export default function EnterpriseChatStudio() {
           </section>
         )}
 
+        <div className="tab-rail card">
+          {[
+            ['chat', 'Chat'],
+            ['swarm', 'Swarm'],
+            ['status', 'Status'],
+          ].map(([key, label]) => (
+            <button key={key} className={`tab-button ${activeTab === key ? 'active' : ''}`} onClick={() => setActiveTab(key as typeof activeTab)}>
+              {label}
+            </button>
+          ))}
+        </div>
+
         <div className="grid dashboard-grid">
           <section className="card" style={{ padding: 24 }}>
-            <div style={{ marginTop: 22 }} className="message-list">
-              {messages.slice(0, animatedCount).map((message) => (
-                <article key={message.id} className={`message ${message.role === 'user' ? 'user' : ''}`}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center' }}>
-                    <strong>{message.title}</strong>
-                    <span className={`message-role ${message.role}`}>{message.role}</span>
-                  </div>
-                  <div style={{ color: 'var(--muted)', lineHeight: 1.6 }}>{message.body}</div>
-                </article>
-              ))}
-            </div>
+            {activeTab === 'chat' && (
+              <>
+                <div className="quick-row">
+                  {['Inspect workspace', 'Draft Codex task', 'Review approval queue', 'Summarize blockers'].map((chip) => (
+                    <button key={chip} className="chip" onClick={() => sendMessage(chip)}>
+                      {chip}
+                    </button>
+                  ))}
+                </div>
 
-            <div style={{ marginTop: 22 }}>
-              <textarea
-                className="chat-input"
-                value={draft}
-                onChange={(event) => setDraft(event.target.value)}
-                placeholder="Ask the swarm to inspect, plan, or prepare a connector-safe action..."
-              />
-              <div className="button-row" style={{ marginTop: 14 }}>
-                <button className="button primary" onClick={() => sendMessage(draft)}>
-                  Send draft
-                </button>
-                <button className="button" onClick={() => setDraft('')}>
-                  Clear
-                </button>
+                <div style={{ marginTop: 22 }} className="message-list">
+                  {(hydrated ? messages : chatTranscript).slice(0, animatedCount || messages.length).map((message) => (
+                    <article key={message.id} className={`message ${message.role === 'user' ? 'user' : ''}`}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'center' }}>
+                        <strong>{message.title}</strong>
+                        <span className={`message-role ${message.role}`}>{message.role}</span>
+                      </div>
+                      <div style={{ color: 'var(--muted)', lineHeight: 1.6 }}>{message.body}</div>
+                    </article>
+                  ))}
+                </div>
+
+                <div className="composer-shell">
+                  <textarea
+                    className="chat-input"
+                    value={draft}
+                    onChange={(event) => setDraft(event.target.value)}
+                    placeholder="Ask the swarm to inspect, plan, or prepare a connector-safe action..."
+                  />
+                  <div className="button-row" style={{ marginTop: 14 }}>
+                    <button className="button primary" onClick={() => sendMessage(draft)}>
+                      Send draft
+                    </button>
+                    <button className="button" onClick={() => setDraft('')}>
+                      Clear
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {activeTab === 'swarm' && (
+              <div className="stack-panel">
+                {swarmQueues.map((queue) => (
+                  <article key={queue.id} className="message">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
+                      <strong>{queue.title}</strong>
+                      <span className={`message-role ${queue.status}`}>{queue.status}</span>
+                    </div>
+                    <div style={{ color: 'var(--muted)', lineHeight: 1.6 }}>{queue.detail}</div>
+                  </article>
+                ))}
               </div>
-            </div>
+            )}
+
+            {activeTab === 'status' && (
+              <div className="stack-panel">
+                {statusCards.map((card) => (
+                  <article key={card.label} className="message">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
+                      <strong>{card.label}</strong>
+                      <span className="message-role system">{card.value}</span>
+                    </div>
+                    <div style={{ color: 'var(--muted)', lineHeight: 1.6 }}>{card.detail}</div>
+                  </article>
+                ))}
+                <article className="message">
+                  <strong>Workbook status</strong>
+                  <div style={{ color: 'var(--muted)', lineHeight: 1.6 }}>
+                    {workbookStatus.map((item) => `${item.name}: ${item.value}`).join(' · ')}
+                  </div>
+                </article>
+              </div>
+            )}
           </section>
 
           <aside className="grid">
@@ -252,6 +320,21 @@ export default function EnterpriseChatStudio() {
                   <div key={label} style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
                     <span style={{ color: 'var(--muted)' }}>{label}</span>
                     <strong>{value}</strong>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="card" style={{ padding: 20 }}>
+              <div className="pill">Connector rails</div>
+              <div style={{ display: 'grid', gap: 12, marginTop: 16 }}>
+                {connectorRows.map((item) => (
+                  <div key={item.name} style={{ display: 'grid', gap: 4 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
+                      <strong>{item.name}</strong>
+                      <span className="message-role system">{item.state}</span>
+                    </div>
+                    <div style={{ color: 'var(--muted)', lineHeight: 1.5 }}>{item.scope}</div>
                   </div>
                 ))}
               </div>

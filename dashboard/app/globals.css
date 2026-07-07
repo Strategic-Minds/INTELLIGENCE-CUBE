@@ -107,6 +107,51 @@ textarea {
   grid-template-columns: minmax(0, 1.7fr) minmax(320px, 0.9fr);
 }
 
+.tab-rail {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  margin-bottom: 20px;
+  position: sticky;
+  top: 12px;
+  z-index: 3;
+  backdrop-filter: blur(18px);
+}
+
+.tab-button,
+.chip {
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--panel-strong) 90%, transparent);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tab-button.active {
+  background: var(--brand-soft);
+  border-color: color-mix(in srgb, var(--brand) 26%, var(--border));
+}
+
+.quick-row,
+.stack-panel {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.stack-panel {
+  flex-direction: column;
+}
+
+.composer-shell {
+  position: sticky;
+  bottom: 16px;
+  padding-top: 20px;
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--bg) 84%, transparent));
+}
+
 .toolbar {
   display: flex;
   justify-content: space-between;
@@ -216,6 +261,16 @@ textarea {
   transition: transform 160ms ease, border-color 160ms ease;
 }
 
+.chip {
+  padding-inline: 16px;
+  font-size: 13px;
+}
+
+.chip:hover,
+.tab-button:hover {
+  transform: translateY(-1px);
+}
+
 .prompt-button:hover,
 .button:hover {
   transform: translateY(-1px);
@@ -257,6 +312,11 @@ textarea {
   .toolbar {
     flex-direction: column;
   }
+
+  .tab-rail {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
 }
 
 @media (max-width: 640px) {
@@ -280,6 +340,11 @@ textarea {
   }
 
   .button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .chip {
     width: 100%;
     justify-content: center;
   }

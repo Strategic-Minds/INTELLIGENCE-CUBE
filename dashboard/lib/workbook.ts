@@ -1,1 +1,6 @@
-export const workbook = { status: 'draft' };
+import { workbookStatus } from './shell-data';
+
+export const workbook = {
+  status: 'validated',
+  items: workbookStatus,
+};
