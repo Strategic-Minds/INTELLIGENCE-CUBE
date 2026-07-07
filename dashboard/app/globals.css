@@ -145,6 +145,56 @@ textarea {
   flex-direction: column;
 }
 
+.agent-capsules {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.agent-chip {
+  border-radius: 999px;
+  padding: 8px 10px;
+  background: var(--brand-soft);
+  color: var(--text);
+  font-size: 12px;
+  border: 1px solid var(--border);
+}
+
+.agent-task-list {
+  display: grid;
+  gap: 10px;
+}
+
+.agent-task {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 14px;
+  background: color-mix(in srgb, var(--panel-strong) 90%, transparent);
+}
+
+.agent-scrape {
+  display: grid;
+  gap: 10px;
+}
+
+.agent-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--panel-strong) 94%, transparent);
+  color: var(--text);
+}
+
+.agent-result {
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  background: color-mix(in srgb, var(--panel-strong) 88%, transparent);
+  line-height: 1.5;
+}
+
 .composer-shell {
   position: sticky;
   bottom: 16px;
@@ -347,6 +397,10 @@ textarea {
   .chip {
     width: 100%;
     justify-content: center;
+  }
+
+  .agent-scrape {
+    grid-template-columns: 1fr;
   }
 }
 

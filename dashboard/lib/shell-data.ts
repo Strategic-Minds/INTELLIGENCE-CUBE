@@ -15,6 +15,13 @@ export type QueueItem = {
   detail: string;
 };
 
+export type AgentTask = {
+  id: string;
+  title: string;
+  status: 'queued' | 'running' | 'blocked' | 'done';
+  detail: string;
+};
+
 export const workbookStatus = [
   {
     name: 'Master workbook',
@@ -91,4 +98,18 @@ export const swarmQueues: QueueItem[] = [
     status: 'complete',
     detail: 'Runs build, smoke, and boundary checks.',
   },
+];
+
+export const agentProfile = {
+  name: 'Local Mobile Agent',
+  mode: 'governed-autonomy',
+  status: 'armed',
+  detail: 'Runs local command drafts, scrape requests, and approval-gated swarm actions.',
+  capabilities: ['mobile command intake', 'browser scrape summary', 'task queue routing', 'receipt logging'],
+};
+
+export const agentTasks: AgentTask[] = [
+  { id: 'AG-001', title: 'Ingest mobile command', status: 'done', detail: 'Composer drafts captured and normalized.' },
+  { id: 'AG-002', title: 'Resolve connector path', status: 'running', detail: 'Checks workbook registry before action.' },
+  { id: 'AG-003', title: 'Scrape public page', status: 'queued', detail: 'Public URL only, approval-aware.' },
 ];

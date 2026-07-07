@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { approvalRows, blockerRows, chatTranscript, connectorRows, receiptRows, swarmQueues, workbookStatus } from '../lib/shell-data';
+import { agentProfile, agentTasks, approvalRows, blockerRows, chatTranscript, connectorRows, receiptRows, swarmQueues, workbookStatus } from '../lib/shell-data';
 
 type Theme = 'light' | 'dark';
 
@@ -50,6 +50,9 @@ export default function EnterpriseChatStudio() {
   const [animatedCount, setAnimatedCount] = useState(0);
   const [activeTab, setActiveTab] = useState<'chat' | 'swarm' | 'status'>('chat');
   const [hydrated, setHydrated] = useState(false);
+  const [scrapeUrl, setScrapeUrl] = useState('');
+  const [scrapeResult, setScrapeResult] = useState<string>('');
+  const [scrapeBusy, setScrapeBusy] = useState(false);
 
   useEffect(() => {
     const saved = window.localStorage.getItem('cube-theme') as Theme | null;
@@ -114,6 +117,51 @@ export default function EnterpriseChatStudio() {
     { label: 'Receipts', value: receiptRows.length.toString(), detail: 'Traceable operational receipts' },
     { label: 'Blockers', value: blockerRows.length.toString(), detail: 'One blocked path by design' },
   ];
+
+  const runScrape = async () => {
+    const clean = scrapeUrl.trim();
+    if (!clean) {
+      setScrapeResult('Enter a public URL first.');
+      return;
+    }
+
+    setScrapeBusy(true);
+    setScrapeResult('Scraping public page...');
+
+    try {
+      const response = await fetch('/api/agent', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ action: 'scrape', url: clean }),
+      });
+      const data = (await response.json()) as {
+        result?: { ok: boolean; url: string; title: string; description: string; links: number; error?: string };
+        error?: string;
+      };
+
+      if (!response.ok || !data.result) {
+        setScrapeResult(data.error ?? 'Scrape failed.');
+        return;
+      }
+
+      const { result } = data;
+      setScrapeResult(
+        [
+          `ok: ${String(result.ok)}`,
+          `title: ${result.title || 'n/a'}`,
+          `description: ${result.description || 'n/a'}`,
+          `links: ${result.links}`,
+          result.error ? `error: ${result.error}` : null,
+        ]
+          .filter(Boolean)
+          .join(' · '),
+      );
+    } catch (error) {
+      setScrapeResult(error instanceof Error ? error.message : 'Unexpected scrape error.');
+    } finally {
+      setScrapeBusy(false);
+    }
+  };
 
   return (
     <div className="shell-grid">
@@ -337,6 +385,45 @@ export default function EnterpriseChatStudio() {
                     <div style={{ color: 'var(--muted)', lineHeight: 1.5 }}>{item.scope}</div>
                   </div>
                 ))}
+              </div>
+            </section>
+
+            <section className="card" style={{ padding: 20 }}>
+              <div className="pill">Local agent</div>
+              <div style={{ display: 'grid', gap: 10, marginTop: 16 }}>
+                <strong>{agentProfile.name}</strong>
+                <div style={{ color: 'var(--muted)', lineHeight: 1.5 }}>{agentProfile.detail}</div>
+                <div className="agent-capsules">
+                  {agentProfile.capabilities.map((capability) => (
+                    <span key={capability} className="agent-chip">
+                      {capability}
+                    </span>
+                  ))}
+                </div>
+                <div className="agent-task-list">
+                  {agentTasks.map((task) => (
+                    <div key={task.id} className="agent-task">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
+                        <strong>{task.title}</strong>
+                        <span className="message-role system">{task.status}</span>
+                      </div>
+                      <div style={{ color: 'var(--muted)', lineHeight: 1.5 }}>{task.detail}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="agent-scrape">
+                  <input
+                    className="agent-input"
+                    value={scrapeUrl}
+                    onChange={(event) => setScrapeUrl(event.target.value)}
+                    placeholder="Paste a public URL to scrape"
+                    inputMode="url"
+                  />
+                  <button className="button primary" onClick={runScrape} disabled={scrapeBusy}>
+                    {scrapeBusy ? 'Scraping...' : 'Scrape'}
+                  </button>
+                </div>
+                <div className="agent-result">{scrapeResult || 'Ready for public-page scrape operations.'}</div>
               </div>
             </section>
           </aside>
