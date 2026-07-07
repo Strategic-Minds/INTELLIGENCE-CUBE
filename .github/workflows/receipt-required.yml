@@ -1,0 +1,14 @@
+name: receipt-required
+
+on:
+  pull_request:
+  push:
+    branches: [workbook-os/scaffold-v1]
+
+jobs:
+  receipt-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ensure receipts folder exists
+        run: test -d 03_Bridge_Receipts/discovery
