@@ -1,2 +1,5 @@
-import SwarmControlPanel from '../components/SwarmControlPanel';
-export default function Page(){return <main><SwarmControlPanel /></main>}
+import EnterpriseChatStudio from '../components/EnterpriseChatStudio';
+
+export default function Page() {
+  return <EnterpriseChatStudio />;
+}

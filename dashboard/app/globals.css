@@ -1,0 +1,189 @@
+:root {
+  color-scheme: light;
+  --bg: #f4efe6;
+  --bg-accent: #d9e7ff;
+  --panel: rgba(255, 255, 255, 0.74);
+  --panel-strong: rgba(255, 255, 255, 0.92);
+  --text: #101828;
+  --muted: #5b6475;
+  --border: rgba(16, 24, 40, 0.12);
+  --brand: #0f766e;
+  --brand-strong: #115e59;
+  --brand-soft: rgba(15, 118, 110, 0.12);
+  --shadow: 0 24px 80px rgba(15, 23, 42, 0.12);
+  --code-bg: #0f172a;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #08111d;
+  --bg-accent: #18263f;
+  --panel: rgba(7, 13, 24, 0.68);
+  --panel-strong: rgba(8, 17, 29, 0.92);
+  --text: #e5eefb;
+  --muted: #9fb0c6;
+  --border: rgba(148, 163, 184, 0.18);
+  --brand: #5eead4;
+  --brand-strong: #2dd4bf;
+  --brand-soft: rgba(94, 234, 212, 0.12);
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  --code-bg: #030712;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background:
+    radial-gradient(circle at top left, var(--bg-accent), transparent 38%),
+    radial-gradient(circle at bottom right, color-mix(in srgb, var(--brand) 14%, transparent), transparent 30%),
+    var(--bg);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: Inter, "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+.shell-grid {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+}
+
+.sidebar {
+  padding: 28px;
+  border-right: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--panel-strong), transparent);
+  backdrop-filter: blur(24px);
+}
+
+.main {
+  padding: 28px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(24px);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--brand-soft);
+  color: var(--brand-strong);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.grid {
+  display: grid;
+  gap: 20px;
+}
+
+.message-list {
+  display: grid;
+  gap: 14px;
+}
+
+.message {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--panel-strong) 88%, transparent);
+}
+
+.message.user {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--brand) 16%, transparent), color-mix(in srgb, var(--brand) 8%, transparent));
+  border-color: color-mix(in srgb, var(--brand) 28%, var(--border));
+}
+
+.chat-input {
+  width: 100%;
+  min-height: 120px;
+  resize: none;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--panel-strong) 92%, transparent);
+  color: var(--text);
+}
+
+.chat-input:focus {
+  outline: 2px solid color-mix(in srgb, var(--brand) 40%, transparent);
+  outline-offset: 2px;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.button {
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--panel-strong) 92%, transparent);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 12px 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button.primary {
+  background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+  color: white;
+  border-color: transparent;
+}
+
+.sidebar-links {
+  display: grid;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.sidebar-link {
+  padding: 12px 14px;
+  border-radius: 14px;
+  color: var(--muted);
+}
+
+.sidebar-link.active {
+  background: var(--brand-soft);
+  color: var(--text);
+}
+
+@media (max-width: 960px) {
+  .shell-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+}
