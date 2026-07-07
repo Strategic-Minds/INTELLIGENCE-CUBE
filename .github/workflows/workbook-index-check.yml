@@ -1,0 +1,15 @@
+name: workbook-index-check
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check index folder
+        run: |
+          test -d 01_WORKBOOK_INDEX/current
+          echo "index folder exists"
