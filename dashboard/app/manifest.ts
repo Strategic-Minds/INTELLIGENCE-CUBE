@@ -1,0 +1,20 @@
+import type { MetadataRoute } from 'next';
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: 'Intelligence Cube',
+    short_name: 'Cube',
+    description: 'Workbook-first enterprise chat and control plane.',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#08111d',
+    theme_color: '#0f766e',
+    icons: [
+      {
+        src: '/icon.svg',
+        sizes: 'any',
+        type: 'image/svg+xml',
+      },
+    ],
+  };
+}

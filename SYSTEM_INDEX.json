@@ -1,0 +1,22 @@
+{
+  "repo": "Strategic-Minds/INTELLIGENCE-CUBE",
+  "purpose": "Workbook-first autonomous GPT + Codex control plane",
+  "canonical_start": "START_HERE.md",
+  "manifest": "WORKBOOK_OS_MANIFEST.json",
+  "primary_workbook": "00_MASTER_WORKBOOK/current/AUTO_BUILDER_INTELLIGENCE_CUBE_MASTER_AUTONOMY_FACTORY_CONNECTOR_READY_FINAL.xlsx",
+  "latest_index_workbook": "01_WORKBOOK_INDEX/current/AUTO_BUILDER_IDEA_MINING_WORKBOOK_INDEX_20260707.xlsx",
+  "support_surface": {
+    "dashboard": "dashboard/",
+    "validation_scripts": "scripts/workbook_validation/",
+    "receipts": "10_VALIDATION_RECEIPTS_ROLLBACK/",
+    "blockers": "BLOCKERS.md",
+    "release_gate": "RELEASE_GATE.md"
+  },
+  "high_value_capabilities": [
+    "mobile PWA command cockpit",
+    "governed local agent",
+    "public browser scrape helper",
+    "approval and receipt tracking",
+    "connector registry and workbook validation"
+  ]
+}
