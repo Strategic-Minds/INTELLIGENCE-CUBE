@@ -20,5 +20,9 @@ jobs:
         run: python scripts/workbook_validation/validate_workbook_uploads.py
       - name: Validate connector sheets
         run: python scripts/workbook_validation/validate_connector_sheets.py
+      - name: Validate workbook schema
+        run: python scripts/workbook_validation/validate_workbook_schema.py
+      - name: Scan workbook safety
+        run: python scripts/workbook_validation/scan_workbook_for_public_safety.py
       - name: Validate public boundary
         run: python scripts/workbook_validation/validate_public_repo_boundaries.py
