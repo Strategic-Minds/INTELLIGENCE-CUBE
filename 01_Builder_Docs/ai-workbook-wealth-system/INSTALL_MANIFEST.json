@@ -1,0 +1,32 @@
+{
+  "package_id": "AI_WORKBOOK_WEALTH_SYSTEM_PRODUCTION_LIBRARY",
+  "repo": "Strategic-Minds/INTELLIGENCE-CUBE",
+  "install_branch": "auto-builder/install-ai-workbook-wealth-library-20260709",
+  "install_path": "01_Builder_Docs/ai-workbook-wealth-system/",
+  "created_at_user_tz": "2026-07-09 America/New_York",
+  "source_files": [
+    {
+      "path": "01_Builder_Docs/ai-workbook-wealth-system/AI_WORKBOOK_WEALTH_SYSTEM_PRODUCTION_LIBRARY.zip",
+      "sha256": "c67ac2cf179906a3d1d4db48819e855050ce18f3f59c1f79652c56fffab2fcb9",
+      "size_bytes": 214465
+    },
+    {
+      "path": "01_Builder_Docs/ai-workbook-wealth-system/AI_WORKBOOK_WEALTH_SYSTEM_MASTER_INDEX.xlsx",
+      "sha256": "9662c6d29cc84c700fab6a15818fa45cf7c0745dd3fc05a4ab474f5879f75cde",
+      "size_bytes": 19955
+    }
+  ],
+  "governance": {
+    "mode": "branch_only",
+    "production_mutation": false,
+    "secrets_included": false,
+    "payments_or_live_customer_actions": false,
+    "operator_review_required_before_merge": true
+  },
+  "validation": {
+    "local_artifacts_exist": true,
+    "hashes_captured": true,
+    "repo_default_branch_confirmed": "main",
+    "draft_pr_expected": true
+  }
+}
