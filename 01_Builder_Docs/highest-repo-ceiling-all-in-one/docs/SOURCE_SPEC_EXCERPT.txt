@@ -1,0 +1,33 @@
+# Source Spec Excerpt: All-In-One Ceiling Workbook
+
+Operator approved Option B: rebuild the current workbook as an all-in-one workbook with visual parity included.
+
+Required retained engineering workbook elements:
+- workbook and package install path
+- Codex install handoff
+- Base44 agent handoff
+- second-GPT audit prompt
+- Vercel runtime/cron layer
+- Supabase runtime ledger
+- connector governance
+- production readiness locked unless proven
+- release gate
+- rollback plan
+- receipts/proof index
+
+Required added visual/UI elements:
+- visual parity charter
+- approved mockup source truth ledger
+- screenshot capture matrix
+- visual drift ledger
+- UI parity scorecard
+- Playwright visual receipts
+- Codex UI fix loop
+- Base44 visual lock handoff
+- visual release gate
+- visual rollback plan
+
+Final governance:
+- Visual/UI parity is required for UI projects.
+- Visual pass does not equal production readiness.
+- Production remains locked until external receipts prove readiness.
