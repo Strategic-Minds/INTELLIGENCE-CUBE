@@ -5,3 +5,4 @@ visual_parity_layer=present
 screenshot_matrix=present
 visual_release_gate=present
 production_readiness=locked_unless_proven
+repo_side_fix=public_repo_safety_and_manifest_validation_green

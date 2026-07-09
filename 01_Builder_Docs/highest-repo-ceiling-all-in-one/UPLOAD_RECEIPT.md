@@ -33,6 +33,7 @@ visual_parity_layer=present
 screenshot_matrix=present
 visual_release_gate=present
 production_readiness=locked_unless_proven
+repo_side_fix=public_repo_safety_and_manifest_validation_green
 ```
 
 ## SHA256
@@ -50,6 +51,7 @@ a51f5c26f9fc29dc4331916b335ffc575ddac2be2c640c06f49ac575fb2806de  AUTO_BUILDER_H
 - No secrets included.
 - Production readiness remains locked unless external proof exists.
 - This receipt is branch-safe and non-production.
+- PR #3 remains draft until CI is green.
 
 ## Connector limitation note
 
@@ -72,3 +74,9 @@ Upload the full package contents into this same folder:
   docs/SOURCE_SPEC_EXCERPT.txt
   docs/VISUAL_PARITY_ADDENDUM.md
 ```
+
+## Current truth
+
+- Both binary files are present in the target folder.
+- `WORKBOOK_OS_MANIFEST.json` now exists at the repo root for this branch.
+- `public-repo-safety` and `workbook-validation` pass locally after repo-side fixes.
