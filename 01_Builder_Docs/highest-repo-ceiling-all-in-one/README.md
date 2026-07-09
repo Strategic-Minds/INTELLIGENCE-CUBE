@@ -4,6 +4,17 @@ PHASE: BUILD / STEP 21
 
 This package rebuilds the prior Highest Repo Ceiling workbook into an all-in-one ceiling workbook that includes visual parity / UI quality governance inside the same workbook.
 
+## Source-truth clarification
+
+This PR installs the ALL-IN-ONE workbook variant, which intentionally includes visual parity, screenshot, and release-gate concepts in the workbook source of truth.
+
+The separate clean "Highest Repo Ceiling One-Shot Workbook" variant intentionally excludes:
+
+- visual parity sheet
+- visual drift sheet
+- screenshot comparison rules
+- website design parity rules
+
 ## Install path
 
 `01_Builder_Docs/highest-repo-ceiling-all-in-one/`
